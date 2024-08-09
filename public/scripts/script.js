@@ -1,3 +1,73 @@
+const TRUE_ANSWER_KEY = "true-answer";
+const VALID_INPUT_KEY = "valid-input";
+const INVALID_INPUT_KEY = "invalid-input";
+
+let validInput = JSON.parse(localStorage.getItem(VALID_INPUT_KEY)) || [];
+let invalidInput = JSON.parse(localStorage.getItem(INVALID_INPUT_KEY)) || [];
+
+const inputMessage = document.getElementById("input-messages");
+const revalidateButton = document.getElementById("revalidate-btn");
+const saveBtn = document.getElementById("save-btn");
+
+// -------------------------- Event Handlers ----------------------------- //
+
+window.addEventListener("DOMContentLoaded", (e) => {
+  if (invalidInput.length > 0) {
+    showInTableInvalidInput();
+  }
+  if (localStorage.getItem(TRUE_ANSWER_KEY)) {
+    const trueAnswers = JSON.parse(localStorage.getItem(TRUE_ANSWER_KEY));
+    const trueAnswerInput = document.querySelectorAll(".true-answer-input");
+    trueAnswerInput.forEach((input) => {
+      input.value = trueAnswers[input.id.toUpperCase()];
+      input.disabled = true;
+    });
+    saveBtn.textContent = "Modifier";
+  }
+});
+
+inputMessage.addEventListener(
+  "change",
+  (e) => {
+    // console.log(inputMessage.files[0]);
+    const file = inputMessage.files[0];
+    const reader = new FileReader();
+    reader.onload = () => {
+      const text = reader.result;
+      checkAndUpdateData(text);
+    };
+    reader.readAsText(file);
+  },
+  false
+);
+
+revalidateButton.addEventListener("click", (e) => {
+  const messages = document.querySelectorAll(".msg");
+  const changedMessage = [];
+  messages.forEach((msg) => {
+    // console.log(msg.textContent);
+    changedMessage.push(msg.textContent);
+  });
+  checkAndUpdateData(changedMessage.join("\n"));
+});
+
+saveBtn.addEventListener("click", (e) => {
+  if (localStorage.getItem(TRUE_ANSWER_KEY)) {
+    const trueAnswers = JSON.parse(localStorage.getItem(TRUE_ANSWER_KEY));
+    const trueAnswerInput = document.querySelectorAll(".true-answer-input");
+    trueAnswerInput.forEach((input) => {
+      input.value = trueAnswers[input.id.toUpperCase()];
+      input.disabled = false;
+    });
+    saveBtn.textContent = "Enregistrer";
+    localStorage.removeItem(TRUE_ANSWER_KEY);
+  } else {
+    validateAndSaveTrueAnswer();
+  }
+});
+
+// -------------------------- Functions ----------------------------- //
+
 async function getData() {
   [fileHandler] = await window.showOpenFilePicker();
   let fileData = await fileHandler.getFile();
@@ -25,6 +95,14 @@ function convertAnswerFormat(answer) {
   });
 
   return newAnswer;
+}
+
+function convertAnswerToMap(answer) {
+  const map = {};
+  answer.forEach((t) => {
+    map[t[0]] = t[1];
+  });
+  return map;
 }
 
 /**
@@ -64,7 +142,7 @@ function validateInput(input) {
 
       // Check for the correct 3-digit ID
       if (!/^([0-9]{3})/.test(id.trim())) {
-        throw new Error("Invalid number format (must be 3 digits)");
+        throw new Error("Invalid ID format (must be 3 digits)");
       }
 
       // Check for valid subject
@@ -74,15 +152,15 @@ function validateInput(input) {
 
       // Check for valid number-letter pairs
       const pairPart = response.join(",");
-      console.log(pairPart);
       if (
         !/(?:([1-9]|10)[A-Da-d](?:, ?([1-9]|10)[A-Da-d]){0,9})?,?$/.test(
           pairPart.trim()
         )
       ) {
+        console.log(pairPart);
         // Specific checks for number-letter pairs
         if (response) {
-          for (let pair of response ){
+          for (let pair of response) {
             if (!/^([1-9]|10)[A-Da-d]$/.test(pair.trim())) {
               throw new Error(`Invalid pair format: ${pair}`);
             }
@@ -93,14 +171,15 @@ function validateInput(input) {
 
       // last checking format with the combination of regex
       if (!pattern.test(line)) {
-        throw new Error("Invalid format, incomprehensible");
+        throw new Error("incomprehensible");
       }
 
       // Add the valid format to unique id
       if (!ids.has(id + subject)) {
         ids.add(id + subject);
       } else {
-        throw new Error("Duplicate response " + id + subject);
+        console.error("Duplicate response " + id + subject);
+        continue;
       }
 
       // Convert to uppercase and format as needed for valid answer
@@ -111,7 +190,7 @@ function validateInput(input) {
       // Update localStorage
       localStorage.setItem("ids", JSON.stringify(Array.from(ids)));
     } catch (error) {
-      // console.log(error);
+      // console.error(error);
       invalid.push({ message: error.message, data: line });
       lines.splice(i, 1);
       i--;
@@ -121,32 +200,60 @@ function validateInput(input) {
   return { valid, invalid };
 }
 
-const TRUE_ANSWER_KEY = "true-answer";
-const VALID_INPUT_KEY = "valid-input";
-const INVALID_INPUT_KEY = "invalid-input";
+function showInTableInvalidInput() {
+  const tableWrapper = document.getElementsByClassName("table-wrapper")[0];
+  tableWrapper.classList.remove("hidden");
+  const tableBody = document.querySelector(".table-flex tbody");
+  for (const input of invalidInput) {
+    const tr = document.createElement("tr");
+    const tdData = document.createElement("td");
+    const tdErrorMsg = document.createElement("td");
+    tdData.textContent = input.data;
+    tdData.contentEditable = true;
+    tdData.classList.add("msg");
+    tdErrorMsg.textContent = input.message;
+    tr.appendChild(tdData);
+    tr.appendChild(tdErrorMsg);
+    tableBody.appendChild(tr);
+  }
+}
 
-let validInput = JSON.parse(localStorage.getItem(VALID_INPUT_KEY)) || [];
-let invalidInput = JSON.parse(localStorage.getItem(INVALID_INPUT_KEY)) || [];
+function checkAndUpdateData(data) {
+  const checkedData = validateInput(data);
+  Array.prototype.push.apply(validInput, checkedData.valid);
+  invalidInput = checkedData.invalid;
+  // console.log(validInput);
+  // console.log(invalidInput);
+  localStorage.setItem(VALID_INPUT_KEY, JSON.stringify(validInput));
+  localStorage.setItem(INVALID_INPUT_KEY, JSON.stringify(invalidInput));
+  window.location.reload();
+  showInTableInvalidInput();
+}
 
-const inputMessage = document.getElementById("input-messages");
-
-inputMessage.addEventListener(
-  "change",
-  (e) => {
-    // console.log(inputMessage.files[0]);
-    const file = inputMessage.files[0];
-    const reader = new FileReader();
-    reader.onload = () => {
-      const text = reader.result;
-      checkedData = validateInput(text);
-      Array.prototype.push.apply(validInput, checkedData.valid);
-      invalidInput = checkedData.invalid;
-      console.log(validInput);
-      console.log(invalidInput);
-      localStorage.setItem(VALID_INPUT_KEY, JSON.stringify(validInput));
-      localStorage.setItem(INVALID_INPUT_KEY, JSON.stringify(invalidInput));
-    };
-    reader.readAsText(file);
-  },
-  false
-);
+function validateAndSaveTrueAnswer() {
+  const trueAnswerInput = document.querySelectorAll(".true-answer-input");
+  const validTrueAnswer = {}; // to store the valid format of the true answer provided
+  let hasError = false;
+  const pattern = /^(?:([1-9]|10)[A-Da-d],){9}([1-9]|10)[A-Da-d]$/;
+  let invalidMessage = "Invalid format on: ";
+  trueAnswerInput.forEach((answer) => {
+    if (!pattern.test(answer.value.trim())) {
+      hasError = true;
+      invalidMessage += answer.id.toUpperCase() + " ";
+    } else {
+      const subject = answer.id.toUpperCase();
+      const arrayAnswer = convertAnswerFormat(answer.value.trim().split(","));
+      const trueAnswer = convertAnswerToMap(arrayAnswer);
+      validTrueAnswer[subject] = trueAnswer;
+    }
+  });
+  if (hasError) {
+    alert(invalidMessage);
+  } else {
+    localStorage.setItem(TRUE_ANSWER_KEY, JSON.stringify(validTrueAnswer));
+    saveBtn.textContent = "Modifier";
+    trueAnswerInput.forEach((answer) => {
+      answer.disabled = true;
+    });
+  }
+}

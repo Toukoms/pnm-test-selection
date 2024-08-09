@@ -17,29 +17,47 @@
     <h1 class="roboto-bold">Résultat de teste de niveau</h1>
     <h2 class="roboto-medium">Promotion 4</h2>
 
-    <section id="true-answer-section">
-        <p class="instruction">
-            <span>Insérer ici les réponses correctes sous cette format:</span>
-            <span class="format">1-A,2-C,3-A,4-D,5-C,6-B,7-D,8-A,9-D,10-C</span>
-        </p>
-        <div id="true-answer-container">
-            <label for="frs">FRC: <input type="text" id="frs"></label>
-            <label for="cug">CUG: <input type="text" id="cug"></label>
-            <label for="log">LOG: <input type="text" id="log"></label>
-            <button>Enregistrer</button>
-        </div>
-    </section>
+    <div id="analyze-container">
+        <section id="true-answer-section">
+            <p class="instruction">
+                <span>Insérer ici les réponses correctes sous cette format:</span>
+                <span class="format">1A,2C,3A,4D,5C,6B,7D,8A,9D,10C</span>
+            </p>
+            <div id="true-answer-container">
+                <label for="frs">FRC: <input type="text" id="frs" class="true-answer-input"></label>
+                <label for="cug">CUG: <input type="text" id="cug" class="true-answer-input"></label>
+                <label for="log">LOG: <input type="text" id="log" class="true-answer-input"></label>
+                <button id="save-btn">Enregistrer</button>
+            </div>
+        </section>
 
-    <div class="upload-container">
-        <label for="input-messages">Importer ici le fichier texte contenant les meesages:</label>
-        <input type="file" id="input-messages" />
+        <section id="revalidation-section">
+            <div class="upload-container">
+                <label for="input-messages">Importer ici le fichier texte contenant les meesages:</label>
+                <input type="file" id="input-messages" />
+            </div>
+
+            <p id=""></p>
+
+            <div class="table-wrapper hidden">
+                <table class="table-flex error">
+                    <thead>
+                        <tr>
+                            <th>Données d'entré</th>
+                            <th>Message d'erreur</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                    <tbody>
+                </table>
+            </div>
+
+            <div>
+                <button id="revalidate-btn">Revalider</button>
+                <a href="./result.html">Voir le résultat</a>
+            </div>
+        </section>
     </div>
-
-    <section id="revalidation-section">
-        <pre>
-
-        </pre>
-    </section>
 </body>
 
 </html>

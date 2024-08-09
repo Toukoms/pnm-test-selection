@@ -27,6 +27,10 @@
   font-style: normal;
 }
 
+.hidden {
+  display: none !important;
+}
+
 html,
 body {
   width: 100vw;
@@ -70,8 +74,22 @@ h2 {
   padding-bottom: 1rem;
 }
 
-.upload-container {
+#analyze-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+#revalidation-section {
   width: 80%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 2rem;
+  gap: 1rem;
+}
+
+.upload-container {
+  width: max-content;
   margin: auto;
   display: flex;
   flex-direction: column;
@@ -80,14 +98,14 @@ h2 {
 }
 
 #true-answer-section {
+  width: 40%;
   padding: 2rem;
   display: flex;
   flex-direction: column;
-  justify-content: center;
   align-items: center;
   gap: 1.5rem;
   margin-bottom: 2rem;
-  border-block: 1px solid #eee;
+  border: 1px solid #eee;
 
   p.instruction {
     display: flex;
@@ -132,8 +150,8 @@ h2 {
 /* Table Styles */
 
 .table-wrapper {
-  margin: 10px 70px 70px;
-  box-shadow: 0px 34px 50px rgba(0, 0, 0, 0.2);
+  box-shadow: 0px 2px 12px rgba(0, 0, 0, 0.1);
+  border: 1px solid var(--light-grey);
 }
 
 .table-flex {
@@ -170,6 +188,10 @@ h2 {
   font-family: "Roboto", sans-serif;
   font-weight: 400;
   font-style: normal;
+}
+
+.table-flex.error thead th {
+  background-color: rgb(214, 20, 20) !important;
 }
 
 .table-flex td {
