@@ -15,12 +15,14 @@ window.addEventListener("DOMContentLoaded", (e) => {
   if (invalidInput.length > 0) {
     showInTableInvalidInput();
     revalidateButton.classList.remove("hidden");
+    showErrorInfo();
   }
   if (localStorage.getItem(TRUE_ANSWER_KEY)) {
     const trueAnswers = JSON.parse(localStorage.getItem(TRUE_ANSWER_KEY));
     const trueAnswerInput = document.querySelectorAll(".true-answer-input");
     trueAnswerInput.forEach((input) => {
       input.value = trueAnswers[input.id.toUpperCase()].textFormat;
+      input.style.filter = 'blur(4px)';
       input.disabled = true;
     });
     saveBtn.textContent = "Modifier";
@@ -53,15 +55,15 @@ revalidateButton.addEventListener("click", (e) => {
 });
 
 saveBtn.addEventListener("click", (e) => {
-  if (localStorage.getItem(TRUE_ANSWER_KEY)) {
+  if (localStorage.getItem(TRUE_ANSWER_KEY) && saveBtn.textContent === "Modifier") {
     const trueAnswers = JSON.parse(localStorage.getItem(TRUE_ANSWER_KEY));
     const trueAnswerInput = document.querySelectorAll(".true-answer-input");
     trueAnswerInput.forEach((input) => {
       input.value = trueAnswers[input.id.toUpperCase()].textFormat;
+      input.style.filter = '';
       input.disabled = false;
     });
     saveBtn.textContent = "Enregistrer";
-    localStorage.removeItem(TRUE_ANSWER_KEY);
   } else {
     validateAndSaveTrueAnswer();
   }
@@ -110,6 +112,14 @@ function convertAnswerToMap(answer) {
     map[t[0]] = t[1];
   });
   return map;
+}
+
+function showErrorInfo() {
+  if (invalidInput.length) {
+    const errorInfo = document.getElementById("error-info");
+    errorInfo.classList.remove('hidden')
+    errorInfo.textContent = `${invalidInput.length} données invalides ont besoins d'être rectifiées. Mais vous pouvez quand même voir les notes en cliquant sur le boutton "voir le résultat" à droite.`;
+  }
 }
 
 /**
@@ -180,6 +190,9 @@ function validateInput(input) {
         throw new Error("incomprehensible");
       }
 
+      // Convert to uppercase and format as needed for valid answer
+      response = convertAnswerFormat(response);
+
       // Add the valid format to unique id
       if (!ids.has(id + subject)) {
         ids.add(id + subject);
@@ -187,9 +200,6 @@ function validateInput(input) {
         console.error("Duplicate response " + id + subject);
         continue;
       }
-
-      // Convert to uppercase and format as needed for valid answer
-      response = convertAnswerFormat(response);
 
       valid.push({ id, subject, response });
 
@@ -234,6 +244,7 @@ function checkAndUpdateData(data) {
   localStorage.setItem(VALID_INPUT_KEY, JSON.stringify(validInput));
   localStorage.setItem(INVALID_INPUT_KEY, JSON.stringify(invalidInput));
   showInTableInvalidInput();
+  showErrorInfo();
 }
 
 function validateAndSaveTrueAnswer() {
@@ -259,8 +270,9 @@ function validateAndSaveTrueAnswer() {
   } else {
     localStorage.setItem(TRUE_ANSWER_KEY, JSON.stringify(validTrueAnswer));
     saveBtn.textContent = "Modifier";
-    trueAnswerInput.forEach((answer) => {
-      answer.disabled = true;
+    trueAnswerInput.forEach((input) => {
+      input.disabled = true;
+      input.style.filter = 'blur(4px)';
     });
   }
 }

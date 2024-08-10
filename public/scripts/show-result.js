@@ -68,7 +68,7 @@ if (localValidInput && trueAnswer) {
             const tdPoint = document.createElement("td");
             const answer = note[subject].qaNotes.filter(
               (qa) => qa[0] === question
-            )[0] || [null, "0", "0"];
+            )[0] || [null, null, "0"];
             tdAnswer.textContent = answer[1];
             tdPoint.textContent = answer[2];
             if (answer[2] === "2") {
@@ -117,6 +117,9 @@ function showResult(notes) {
   errMsg.style.display = "none";
   const backLink = document.getElementById("back-link");
   backLink.classList.remove("hidden");
+  const resultInfo = document.getElementById("result-info");
+  resultInfo.classList.remove("hidden");
+  resultInfo.textContent = `Résultats de ${notes.length} élèves`;
   const tableWrapper = document.getElementsByClassName("table-wrapper")[0];
   tableWrapper.classList.remove("hidden");
   const tableBody = document.querySelector(".table-flex tbody");
