@@ -14,12 +14,13 @@ const saveBtn = document.getElementById("save-btn");
 window.addEventListener("DOMContentLoaded", (e) => {
   if (invalidInput.length > 0) {
     showInTableInvalidInput();
+    revalidateButton.classList.remove("hidden");
   }
   if (localStorage.getItem(TRUE_ANSWER_KEY)) {
     const trueAnswers = JSON.parse(localStorage.getItem(TRUE_ANSWER_KEY));
     const trueAnswerInput = document.querySelectorAll(".true-answer-input");
     trueAnswerInput.forEach((input) => {
-      input.value = trueAnswers[input.id.toUpperCase()];
+      input.value = trueAnswers[input.id.toUpperCase()].textFormat;
       input.disabled = true;
     });
     saveBtn.textContent = "Modifier";
@@ -56,7 +57,7 @@ saveBtn.addEventListener("click", (e) => {
     const trueAnswers = JSON.parse(localStorage.getItem(TRUE_ANSWER_KEY));
     const trueAnswerInput = document.querySelectorAll(".true-answer-input");
     trueAnswerInput.forEach((input) => {
-      input.value = trueAnswers[input.id.toUpperCase()];
+      input.value = trueAnswers[input.id.toUpperCase()].textFormat;
       input.disabled = false;
     });
     saveBtn.textContent = "Enregistrer";
@@ -209,6 +210,7 @@ function showInTableInvalidInput() {
   const tableWrapper = document.getElementsByClassName("table-wrapper")[0];
   tableWrapper.classList.remove("hidden");
   const tableBody = document.querySelector(".table-flex tbody");
+  tableBody.innerHTML = "";
   for (const input of invalidInput) {
     const tr = document.createElement("tr");
     const tdData = document.createElement("td");
@@ -231,7 +233,6 @@ function checkAndUpdateData(data) {
   // console.log(invalidInput);
   localStorage.setItem(VALID_INPUT_KEY, JSON.stringify(validInput));
   localStorage.setItem(INVALID_INPUT_KEY, JSON.stringify(invalidInput));
-  window.location.reload();
   showInTableInvalidInput();
 }
 
@@ -250,6 +251,7 @@ function validateAndSaveTrueAnswer() {
       const arrayAnswer = convertAnswerFormat(answer.value.trim().split(","));
       const trueAnswer = convertAnswerToMap(arrayAnswer);
       validTrueAnswer[subject] = trueAnswer;
+      validTrueAnswer[subject].textFormat = answer.value.trim();
     }
   });
   if (hasError) {
