@@ -6,9 +6,7 @@ const detailModal = document.getElementById("detail-modal");
 const closeBtn = document.getElementById("close-btn");
 
 if (localValidInput && trueAnswer) {
-  const notes =
-    JSON.parse(localStorage.getItem("notes")) ||
-    calculateNote(localValidInput, trueAnswer);
+  const notes = calculateNote(localValidInput, trueAnswer);
 
   notes.sort((a, b) => b.total - a.total);
   if (notes) {
@@ -178,6 +176,5 @@ function calculateNote(validInput, trueAnswer) {
     note[data.subject].total = totalPoint;
     note.total = note.FRC.total + note.CUG.total + note.LOG.total;
   });
-  localStorage.setItem("notes", JSON.stringify(notes));
   return notes;
 }
