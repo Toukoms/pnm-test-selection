@@ -7,10 +7,21 @@
   <link rel="shortcut icon" href="./public/favicon.ico" type="image/x-icon">
   <link rel="stylesheet" href="./public/styles/style.css">
   <script src="./public/scripts/show-result.js" defer></script>
+  <script src="./public/scripts/clear-all.js" defer></script>
   <title>Résultat de teste de promotion 4 - Passerelles Numériques Madagascar</title>
 </head>
 
 <body>
+  <button id="clear-all" class="btn">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refresh-ccw">
+      <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+      <path d="M3 3v5h5" />
+      <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+      <path d="M16 16h5v5" />
+    </svg>
+  </button>
+
   <div id="detail-modal" class="modal hidden">
     <div class="modal-content">
       <span class="close" id="close-btn">&times;</span>
@@ -28,18 +39,18 @@
   <a href="./index.html" id="back-link" class="hidden link" style="margin-left: 8rem;">
     < Retour</a>
 
-  <div id="note-null" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
+      <div id="note-null" style="display: flex; flex-direction: column; justify-content: center; align-items: center;">
         <p style="text-align: center; width: 60%;">Vous n'avez pas encore iséré des données valides et/ou les vrais
           reponses
           (FRC|CUG|LOG).<br> Veuillez d'abord
-      insérer le fichier input.txt contenant les
-      messages et les vrais reponses de FRC et CUG et LOG en cliquant sur le lien ci-dessous.</p>
-    <a href="./index.html">Insérer</a>
-  </div>
+          insérer le fichier input.txt contenant les
+          messages et les vrais reponses de FRC et CUG et LOG en cliquant sur le lien ci-dessous.</p>
+        <a href="./index.html">Insérer</a>
+      </div>
 
       <div class="table-wrapper hidden" style="width: 80vw; margin: auto;margin-block: 2rem;">
-    <table class="table-flex">
-      <thead>
+        <table class="table-flex">
+          <thead>
             <tr>
               <th>ID</th>
               <th>FRC</th>
@@ -47,10 +58,10 @@
               <th>LOG</th>
               <th>TOTAL</th>
             </tr>
-      </thead>
-      <tbody></tbody>
-    </table>
-  </div>
+          </thead>
+          <tbody></tbody>
+        </table>
+      </div>
 </body>
 
 </html>

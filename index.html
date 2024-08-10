@@ -2,60 +2,71 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <script src="./public/scripts/script.js" defer></script>
-    <link rel="shortcut icon" href="./public/favicon.ico" type="image/x-icon">
-    <link rel="stylesheet" href="./public/styles/style.css">
-    <title>Résultat de teste de promotion 4 - Passerelles Numériques Madagascar</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="shortcut icon" href="./public/favicon.ico" type="image/x-icon">
+  <link rel="stylesheet" href="./public/styles/style.css">
+  <script src="./public/scripts/script.js" defer></script>
+  <script src="./public/scripts/clear-all.js" defer></script>
+  <title>Résultat de teste de promotion 4 - Passerelles Numériques Madagascar</title>
 </head>
 
 <body>
-    <div class="logo-pn">
-        <img src="./public/assets/images/logo-pn.png" alt="logo-pn">
-    </div>
-    <h1 class="roboto-bold">Résultat de teste de niveau</h1>
-    <h2 class="roboto-medium">Promotion 4</h2>
+  <button id="clear-all" class="btn">
+    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+      stroke-width="3" stroke-linecap="round" stroke-linejoin="round" class="lucide lucide-refresh-ccw">
+      <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8" />
+      <path d="M3 3v5h5" />
+      <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16" />
+      <path d="M16 16h5v5" />
+    </svg>
+  </button>
 
-    <div id="analyze-container">
-        <section id="true-answer-section">
-            <p class="instruction">
-                <span>Insérer ici les réponses correctes sous cette format:</span>
-                <span class="format">1A,2C,3A,4D,5C,6B,7D,8A,9D,10C</span>
-            </p>
-            <div id="true-answer-container">
+  <div class="logo-pn">
+    <img src="./public/assets/images/logo-pn.png" alt="logo-pn">
+  </div>
+  <h1 class="roboto-bold">Résultat de teste de niveau</h1>
+  <h2 class="roboto-medium">Promotion 4</h2>
+
+  <div id="analyze-container">
+    <section id="true-answer-section">
+      <p class="instruction">
+        <span>Insérer ici les réponses correctes sous cette format:</span>
+        <span class="format">1A,2C,3A,4D,5C,6B,7D,8A,9D,10C</span>
+      </p>
+      <div id="true-answer-container">
         <label for="frc">FRC: <input type="text" id="frc" class="true-answer-input"></label>
-                <label for="cug">CUG: <input type="text" id="cug" class="true-answer-input"></label>
-                <label for="log">LOG: <input type="text" id="log" class="true-answer-input"></label>
+        <label for="cug">CUG: <input type="text" id="cug" class="true-answer-input"></label>
+        <label for="log">LOG: <input type="text" id="log" class="true-answer-input"></label>
         <button id="save-btn" class="btn">Enregistrer</button>
-            </div>
+      </div>
       <a href="./result.html" class="link">Voir le résultat</a>
-        </section>
+    </section>
 
-        <section id="revalidation-section">
-            <div class="upload-container">
-                <label for="input-messages">Importer ici le fichier texte contenant les meesages:</label>
-                <input type="file" id="input-messages" />
-            </div>
+    <section id="revalidation-section">
+      <div class="upload-container">
+        <label for="input-messages">Importer ici le fichier texte contenant les meesages:</label>
+        <input type="file" id="input-messages" />
+      </div>
 
-            <p id=""></p>
+      <p id=""></p>
 
-            <div class="table-wrapper hidden">
-                <table class="table-flex error">
-                    <thead>
-                        <tr>
-                            <th>Données d'entré</th>
-                            <th>Message d'erreur</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                    <tbody>
-                </table>
-            </div>
+      <div class="table-wrapper hidden">
+        <table class="table-flex error">
+          <thead>
+            <tr>
+              <th>Données d'entré</th>
+              <th>Message d'erreur</th>
+            </tr>
+          </thead>
+          <tbody>
+          <tbody>
+        </table>
+      </div>
 
       <button id="revalidate-btn" class="btn error hidden">Revalider</button>
-        </section>
-    </div>
+    </section>
+  </div>
 </body>
 
 </html>
