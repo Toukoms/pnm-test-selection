@@ -5,6 +5,40 @@ const localValidInput = JSON.parse(localStorage.getItem(VALID_INPUT_KEY));
 const detailModal = document.getElementById("detail-modal");
 const closeBtn = document.getElementById("close-btn");
 
+// -------------------------- Functions ----------------------------- //
+
+function showResult(notes) {
+  const errMsg = document.getElementById("note-null");
+  errMsg.style.display = "none";
+  const backLink = document.getElementById("back-link");
+  backLink.classList.remove("hidden");
+  const tableWrapper = document.getElementsByClassName("table-wrapper")[0];
+  tableWrapper.classList.remove("hidden");
+  const tableBody = document.querySelector(".table-flex tbody");
+  notes.forEach((note) => {
+    const tr = document.createElement("tr");
+    const tdId = document.createElement("td");
+    const tdFRC = document.createElement("td");
+    const tdCUG = document.createElement("td");
+    const tdLOG = document.createElement("td");
+    const tdTotal = document.createElement("td");
+    tdId.id = note.id;
+    tdId.classList.add("id-note");
+    tdId.textContent = note.id;
+    tdFRC.textContent = note.FRC.total || "0";
+    tdCUG.textContent = note.CUG.total || "0";
+    tdLOG.textContent = note.LOG.total || "0";
+    tdTotal.textContent = note.total;
+    tr.style.color = "#404040";
+    tr.appendChild(tdId);
+    tr.appendChild(tdFRC);
+    tr.appendChild(tdCUG);
+    tr.appendChild(tdLOG);
+    tr.appendChild(tdTotal);
+    tableBody.appendChild(tr);
+  });
+}
+
 function calculateNote(validInput, trueAnswer) {
   const notes = [];
   const ids = new Set();
