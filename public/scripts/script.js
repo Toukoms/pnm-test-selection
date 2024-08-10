@@ -82,6 +82,7 @@ async function getData() {
  */
 function convertAnswerFormat(answer) {
   const newAnswer = [];
+  const uniqueQuestion = new Set();
 
   answer.forEach((t, i) => {
     newAnswer.push(["", ""]);
@@ -91,6 +92,11 @@ function convertAnswerFormat(answer) {
       } else {
         newAnswer[i][1] += l.toUpperCase();
       }
+    }
+    if (!uniqueQuestion.has(newAnswer[i][0])) {
+      uniqueQuestion.add(newAnswer[i][0]);
+    } else {
+      throw new Error("Duplicate question: " + newAnswer[i][0]);
     }
   });
 
