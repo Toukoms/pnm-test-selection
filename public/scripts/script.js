@@ -147,23 +147,22 @@ function validateInput(input) {
       response = msg;
 
       // Check for the correct 3-digit ID
-      if (!/^([0-9]{3})/.test(id.trim())) {
+      if (!/^([0-9]{3}$)/.test(id.trim())) {
         throw new Error("Invalid ID format (must be 3 digits)");
       }
 
       // Check for valid subject
-      if (!/(FRC|CUG|LOG)/.test(subject.trim())) {
+      if (!/^(FRC|CUG|LOG)$/.test(subject.trim())) {
         throw new Error("Invalid subject (must be FRC, CUG, or LOG)");
       }
 
       // Check for valid number-letter pairs
       const pairPart = response.join(",");
       if (
-        !/(?:([1-9]|10)[A-Da-d](?:, ?([1-9]|10)[A-Da-d]){0,9})?,?$/.test(
+        !/^(?:([1-9]|10)[A-Da-d](?:, ?([1-9]|10)[A-Da-d]){0,9})?,?$/.test(
           pairPart.trim()
         )
       ) {
-        console.log(pairPart);
         // Specific checks for number-letter pairs
         if (response) {
           for (let pair of response) {
