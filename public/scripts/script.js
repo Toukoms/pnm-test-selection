@@ -22,7 +22,7 @@ window.addEventListener("DOMContentLoaded", (e) => {
     const trueAnswerInput = document.querySelectorAll(".true-answer-input");
     trueAnswerInput.forEach((input) => {
       input.value = trueAnswers[input.id.toUpperCase()].textFormat;
-      input.style.filter = 'blur(4px)';
+      input.style.filter = "blur(4px)";
       input.disabled = true;
     });
     saveBtn.textContent = "Modifier";
@@ -55,12 +55,15 @@ revalidateButton.addEventListener("click", (e) => {
 });
 
 saveBtn.addEventListener("click", (e) => {
-  if (localStorage.getItem(TRUE_ANSWER_KEY) && saveBtn.textContent === "Modifier") {
+  if (
+    localStorage.getItem(TRUE_ANSWER_KEY) &&
+    saveBtn.textContent === "Modifier"
+  ) {
     const trueAnswers = JSON.parse(localStorage.getItem(TRUE_ANSWER_KEY));
     const trueAnswerInput = document.querySelectorAll(".true-answer-input");
     trueAnswerInput.forEach((input) => {
       input.value = trueAnswers[input.id.toUpperCase()].textFormat;
-      input.style.filter = '';
+      input.style.filter = "";
       input.disabled = false;
     });
     saveBtn.textContent = "Enregistrer";
@@ -117,7 +120,7 @@ function convertAnswerToMap(answer) {
 function showErrorInfo() {
   if (invalidInput.length) {
     const errorInfo = document.getElementById("error-info");
-    errorInfo.classList.remove('hidden')
+    errorInfo.classList.remove("hidden");
     errorInfo.textContent = `${invalidInput.length} données invalides ont besoins d'être rectifiées. Mais vous pouvez quand même voir les notes en cliquant sur le boutton "voir le résultat" à droite.`;
   }
 }
@@ -243,8 +246,11 @@ function checkAndUpdateData(data) {
   // console.log(invalidInput);
   localStorage.setItem(VALID_INPUT_KEY, JSON.stringify(validInput));
   localStorage.setItem(INVALID_INPUT_KEY, JSON.stringify(invalidInput));
-  showInTableInvalidInput();
-  showErrorInfo();
+  if (invalidInput.length > 0) {
+    showInTableInvalidInput();
+    revalidateButton.classList.remove("hidden");
+    showErrorInfo();
+  }
 }
 
 function validateAndSaveTrueAnswer() {
@@ -272,7 +278,7 @@ function validateAndSaveTrueAnswer() {
     saveBtn.textContent = "Modifier";
     trueAnswerInput.forEach((input) => {
       input.disabled = true;
-      input.style.filter = 'blur(4px)';
+      input.style.filter = "blur(4px)";
     });
   }
 }
