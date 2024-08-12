@@ -12,7 +12,7 @@
 :root {
   --light-grey: #f4f4f4;
   --blue: #22BBEA;
-  --orange: #FF9933;
+  --green: #008000;
   --danger: #d61414;
 }
 
@@ -209,9 +209,9 @@ h2 {
 }
 
 .link {
-  color: var(--orange);
+  color: var(--green);
   padding: 0.8rem 2rem;
-  border: 1px solid var(--orange);
+  border: 1px solid var(--green);
   border-radius: 4px;
   text-decoration: none;
 }
