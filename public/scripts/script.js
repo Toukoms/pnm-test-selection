@@ -76,6 +76,7 @@ exportBtn.addEventListener("click", (e) => {
   const table2excel = new Table2Excel();
   table2excel.export(document.querySelectorAll("table"));
   localStorage.removeItem(INVALID_INPUT_KEY)
+  window.location.reload();
 });
 
 // -------------------------- Functions ----------------------------- //
