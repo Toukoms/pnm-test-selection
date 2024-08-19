@@ -8,13 +8,13 @@ let invalidInput = JSON.parse(localStorage.getItem(INVALID_INPUT_KEY)) || [];
 const inputMessage = document.getElementById("input-messages");
 const revalidateButton = document.getElementById("revalidate-btn");
 const saveBtn = document.getElementById("save-btn");
+const exportBtn = document.getElementById("export-btn");
 
 // -------------------------- Event Handlers ----------------------------- //
 
 window.addEventListener("DOMContentLoaded", (e) => {
   if (invalidInput.length > 0) {
     showInTableInvalidInput();
-    revalidateButton.classList.remove("hidden");
     showErrorInfo();
   }
   if (localStorage.getItem(TRUE_ANSWER_KEY)) {
@@ -72,6 +72,11 @@ saveBtn.addEventListener("click", (e) => {
   }
 });
 
+exportBtn.addEventListener("click", (e) => {
+  const table2excel = new Table2Excel();
+  table2excel.export(document.querySelectorAll("table"));
+});
+
 // -------------------------- Functions ----------------------------- //
 
 async function getData() {
@@ -119,6 +124,8 @@ function convertAnswerToMap(answer) {
 
 function showErrorInfo() {
   if (invalidInput.length) {
+    revalidateButton.classList.remove("hidden");
+    exportBtn.classList.remove("hidden");
     const errorInfo = document.getElementById("error-info");
     errorInfo.classList.remove("hidden");
     errorInfo.textContent = `${invalidInput.length} données invalides ont besoins d'être rectifiées. Mais vous pouvez quand même voir les notes en cliquant sur le boutton "voir le résultat" à droite.`;
@@ -250,7 +257,6 @@ function checkAndUpdateData(data) {
   localStorage.setItem(INVALID_INPUT_KEY, JSON.stringify(invalidInput));
   if (invalidInput.length > 0) {
     showInTableInvalidInput();
-    revalidateButton.classList.remove("hidden");
     showErrorInfo();
   }
 }
