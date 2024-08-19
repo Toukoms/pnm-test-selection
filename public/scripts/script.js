@@ -155,10 +155,11 @@ function validateInput(input) {
         id = msg.shift();
       } else {
         throw new Error("ID not found or not a number");
-      }
-
+      }      
+      
       // get question-answer as array
       response = msg;
+      console.log(id, subject, response);
 
       // Check for the correct 3-digit ID
       if (!/^([0-9]{3}$)/.test(id.trim())) {
@@ -188,8 +189,9 @@ function validateInput(input) {
         throw new Error("Invalid question-answer format");
       }
 
+      const parsedMsg = id + "-" + subject + "-" + pairPart;
       // last checking format with the combination of regex
-      if (!pattern.test(line)) {
+      if (!pattern.test(parsedMsg)) {
         throw new Error("incomprehensible");
       }
 
