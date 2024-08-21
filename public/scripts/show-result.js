@@ -23,7 +23,7 @@ if (localValidInput && trueAnswer) {
           "table-wrapper-modal"
         );
         tableWrapperModal.innerHTML = "";
-        const subjects = ["FRC", "CUG", "LOG"];
+        const subjects = ["FRS", "CUG", "LOG"];
         subjects.forEach((subject) => {
           const table = document.createElement("table");
           table.classList.add("table-flex");
@@ -126,20 +126,20 @@ function showResult(notes) {
   notes.forEach((note) => {
     const tr = document.createElement("tr");
     const tdId = document.createElement("td");
-    const tdFRC = document.createElement("td");
+    const tdFRS = document.createElement("td");
     const tdCUG = document.createElement("td");
     const tdLOG = document.createElement("td");
     const tdTotal = document.createElement("td");
     tdId.id = note.id;
     tdId.classList.add("id-note");
     tdId.textContent = note.id;
-    tdFRC.textContent = note.FRC.total || "0";
+    tdFRS.textContent = note.FRS.total || "0";
     tdCUG.textContent = note.CUG.total || "0";
     tdLOG.textContent = note.LOG.total || "0";
     tdTotal.textContent = note.total;
     tr.style.color = "#404040";
     tr.appendChild(tdId);
-    tr.appendChild(tdFRC);
+    tr.appendChild(tdFRS);
     tr.appendChild(tdCUG);
     tr.appendChild(tdLOG);
     tr.appendChild(tdTotal);
@@ -157,7 +157,7 @@ function calculateNote(validInput, trueAnswer) {
       ids.add(data.id);
       note = {
         id: data.id,
-        FRC: { qaNotes: [], total: 0 },
+        FRS: { qaNotes: [], total: 0 },
         CUG: { qaNotes: [], total: 0 },
         LOG: { qaNotes: [], total: 0 },
         total: 0,
@@ -177,7 +177,7 @@ function calculateNote(validInput, trueAnswer) {
       }
     });
     note[data.subject].total = totalPoint;
-    note.total = note.FRC.total + note.CUG.total + note.LOG.total;
+    note.total = note.FRS.total + note.CUG.total + note.LOG.total;
   });
   return notes;
 }

@@ -145,7 +145,7 @@ function validateInput(input) {
   const lines = input.split("\n");
   let linesLength = lines.length;
   const pattern =
-    /^([0-9]{3})-(FRC|CUG|LOG)-(?:([1-9]|10)[A-Da-d](?:, ?([1-9]|10)[A-Da-d]){0,9})?,?$/;
+    /^([0-9]{3})-(FRS|CUG|LOG)-(?:([1-9]|10)[A-Da-d](?:, ?([1-9]|10)[A-Da-d]){0,9})?,?$/;
   console.log(linesLength);
   for (let i = 0; i < linesLength; i++) {
     let line = lines[i].trim(); // Remove leading/trailing spaces
@@ -176,8 +176,8 @@ function validateInput(input) {
       }
 
       // Check for valid subject
-      if (!/^(FRC|CUG|LOG)$/.test(subject.trim())) {
-        throw new Error("Invalid subject (must be FRC, CUG, or LOG)");
+      if (!/^(FRS|CUG|LOG)$/.test(subject.trim())) {
+        throw new Error("Invalid subject (must be FRS, CUG, or LOG)");
       }
 
       // Check for valid number-letter pairs
